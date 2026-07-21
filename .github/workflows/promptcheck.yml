@@ -1,0 +1,29 @@
+name: promptcheck
+
+# Gate changes to your system prompt on its injection-resilience score.
+# Requires an ANTHROPIC_API_KEY repo secret (Settings → Secrets → Actions).
+on:
+  push:
+    paths: ["prompts/**", "examples/**", "promptcheck.py", ".github/workflows/promptcheck.yml"]
+  pull_request:
+    paths: ["prompts/**", "examples/**", "promptcheck.py"]
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Audit the system prompt
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Point --prompt at your real prompt file. Fails the build below --min-score.
+          python3 promptcheck.py \
+            --prompt examples/hardened.txt \
+            --agent \
+            --min-score 90 \
+            --no-color

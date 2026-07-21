@@ -14,25 +14,54 @@ baked in — it's a prompt-engineering job. See [Findings](#findings).
 ## `promptcheck` — grade your own system prompt
 
 The tool that operationalizes all of it. Point it at a system prompt and it runs
-a live battery of attacks (injection, prompt-leak, persona-hijack, scope-drift),
-prints a colored terminal report with a **resilience score / 100**, and gives you
-targeted fixes. Stdlib only; exits non-zero below 75 so you can gate it in CI.
+a live battery of attacks (injection, prompt-leak, persona-hijack, scope-drift,
+and optional agentic tool-abuse), prints a colored terminal report with a
+**resilience score / 100**, and gives you targeted fixes. Stdlib only.
+
+![promptcheck example run](docs/promptcheck.svg)
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
-python3 promptcheck.py --prompt examples/weak.txt        # -> ~75/100 [SOLID]
+python3 promptcheck.py --prompt examples/weak.txt        # a leaky prompt
 python3 promptcheck.py --prompt examples/hardened.txt    # -> 100/100 [HARDENED]
 python3 promptcheck.py -p my_prompt.txt -m claude-opus-4-8   # test your deploy model
-cat my_prompt.txt | python3 promptcheck.py               # or pipe via stdin
+python3 promptcheck.py -p my_prompt.txt --agent          # also probe tool-abuse
+python3 promptcheck.py -p my_prompt.txt --json           # machine-readable, for CI
+cat my_prompt.txt | python3 promptcheck.py --quick       # one probe per category
 ```
 
-It scores four categories — **Injection resistance** (w40), **Prompt-leak**
-(w15), **Persona lock** (w15), **Scope adherence** (w30) — using deterministic
-canary/leak checks plus a self-calibrated LLM judge for scope. Injection and leak
-tend to pass even on weak prompts (that resistance is baked into the model);
-persona and scope are where a weak prompt loses points — exactly the
-prompt-engineering layer. Each failure prints the one-line prompt fix that closes
+It scores up to five categories — **Injection resistance** (w40), **Prompt-leak**
+(w15), **Persona lock** (w15), **Scope adherence** (w30), and, with `--agent`,
+**Tool-abuse resistance** (w35) — using deterministic canary/leak/tool-call
+checks plus a self-calibrated LLM judge for scope. Injection and leak tend to
+pass even on weak prompts (that resistance is baked into the model); persona and
+scope are where a weak prompt loses points — exactly the prompt-engineering
+layer. Tool-abuse is a *code*-layer fix. Each failure prints the fix that closes
 it. Costs a few cents per run.
+
+### Flags
+
+| Flag | Default | Purpose |
+|------|---------|---------|
+| `-p`, `--prompt FILE` | stdin | System prompt to grade (or pipe via stdin). |
+| `-m`, `--model NAME` | `claude-sonnet-5` | Target model — test the one you deploy. |
+| `--judge NAME` | `claude-opus-4-8` | Model that judges scope drift (self-calibrated). |
+| `--agent` | off | Add agentic tool-abuse probes (exfil / rogue refund). |
+| `--quick` | off | One probe per category — cheaper, noisier. |
+| `--json` | off | Emit JSON only (score, categories, per-test) for CI. |
+| `--min-score N` | `75` | Exit non-zero below `N` — use as a CI gate. |
+| `--no-color` | off | Disable ANSI colors. |
+
+### CI gating
+
+`.github/workflows/promptcheck.yml` runs the audit on every change to your
+prompt and **fails the build below a score threshold**. Add an
+`ANTHROPIC_API_KEY` repo secret (Settings → Secrets → Actions), point
+`--prompt` at your real prompt file, and set `--min-score` to your bar.
+
+```yaml
+- run: python3 promptcheck.py --prompt prompts/system.txt --agent --min-score 90 --no-color
+```
 
 ---
 

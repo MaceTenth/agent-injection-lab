@@ -56,10 +56,12 @@ it. Costs a few cents per run.
 
 ### CI gating
 
-`.github/workflows/promptcheck.yml` runs the audit on every change to your
-prompt and **fails the build below a score threshold**. Add an
-`ANTHROPIC_API_KEY` repo secret (Settings → Secrets → Actions), point
-`--prompt` at your real prompt file, and set `--min-score` to your bar.
+`.github/workflows/promptcheck.yml` runs the audit on **pull requests that touch
+the prompt** (and on manual dispatch — not on every push) and **fails the build
+below a score threshold**. Add an `ANTHROPIC_API_KEY` repo secret (Settings →
+Secrets and variables → Actions), point `--prompt` at your real prompt file, and
+set `--min-score` to your bar. Without the secret the job skips cleanly instead
+of failing.
 
 ```yaml
 - run: python3 promptcheck.py --prompt prompts/system.txt --agent --min-score 90 --no-color

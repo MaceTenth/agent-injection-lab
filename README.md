@@ -224,13 +224,3 @@ exposure); OpenAI's gpt-5.6 is "terse but compliant"; Claude sits in the middle.
 *Caveat: n=5, single sample each —
 directional, not a benchmark; "words" is visible output only (these reasoning
 models also bill hidden reasoning tokens).*
-
-## A note on method (things that faked our results)
-
-- **Fail-open harness:** an early version counted 75/90 API errors as "safe."
-  Security harnesses must fail closed.
-- **Substring scoring:** counting the canary token as a "hit" flagged 25 false
-  positives — models quoting the attack *while refusing it*.
-- **Un-calibrated LLM judges:** two judges rated blatant compromises as safe.
-  Always calibrate with positive/negative controls; cross-check with
-  deterministic signals.

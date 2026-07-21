@@ -385,24 +385,24 @@ rate_limit(user_id, per_minute=8) <span class="c-com"># cap the troll tax</span>
     </table>
   </div>
 
-  <p><strong>Off-brand leaderboard — chattiest &times; driftiest</strong> (index = drift-rate &times; words; higher = more off-brand output per stray request):</p>
+  <p><strong>Discipline leaderboard — most disciplined first</strong> (index = drift-rate &times; words; <em>lower is better</em> — less off-brand output per stray request):</p>
   <div class="tbl">
     <table>
       <thead><tr><th class="num">#</th><th>Model</th><th class="num">Drift</th><th class="num">Words</th><th class="num">Index</th><th></th></tr></thead>
       <tbody>
-        <tr><td class="num">1</td><td>gemini-flash</td><td class="num">5/5</td><td class="num">178</td><td class="num">178</td><td><span class="pill breach">chattiest + driftiest</span></td></tr>
-        <tr><td class="num">2</td><td>gemini-flash-lite</td><td class="num">4/5</td><td class="num">148</td><td class="num">118</td><td></td></tr>
-        <tr><td class="num">3</td><td>Claude Sonnet 5</td><td class="num">3/5</td><td class="num">150</td><td class="num">90</td><td></td></tr>
-        <tr><td class="num">4</td><td>Claude Haiku 4.5</td><td class="num">3/5</td><td class="num">145</td><td class="num">87</td><td></td></tr>
-        <tr><td class="num">4</td><td>gpt-5.6-terra</td><td class="num">4/5</td><td class="num">109</td><td class="num">87</td><td></td></tr>
-        <tr><td class="num">6</td><td>gemini-pro</td><td class="num">3/5</td><td class="num">136</td><td class="num">82</td><td></td></tr>
-        <tr><td class="num">7</td><td>Claude Opus 4.8</td><td class="num">3/5</td><td class="num">135</td><td class="num">81</td><td></td></tr>
-        <tr><td class="num">8</td><td>gpt-5.6-luna</td><td class="num">4/5</td><td class="num">92</td><td class="num">74</td><td></td></tr>
-        <tr><td class="num">9</td><td>gpt-5.6-sol</td><td class="num">4/5</td><td class="num">87</td><td class="num">70</td><td><span class="pill hold">most disciplined</span></td></tr>
+        <tr><td class="num">1</td><td>gpt-5.6-sol</td><td class="num">4/5</td><td class="num">87</td><td class="num">70</td><td>🥇 <span class="pill hold">most disciplined</span></td></tr>
+        <tr><td class="num">2</td><td>gpt-5.6-luna</td><td class="num">4/5</td><td class="num">92</td><td class="num">74</td><td>🥈</td></tr>
+        <tr><td class="num">3</td><td>Claude Opus 4.8</td><td class="num">3/5</td><td class="num">135</td><td class="num">81</td><td>🥉</td></tr>
+        <tr><td class="num">4</td><td>gemini-pro</td><td class="num">3/5</td><td class="num">136</td><td class="num">82</td><td></td></tr>
+        <tr><td class="num">5</td><td>Claude Haiku 4.5</td><td class="num">3/5</td><td class="num">145</td><td class="num">87</td><td></td></tr>
+        <tr><td class="num">5</td><td>gpt-5.6-terra</td><td class="num">4/5</td><td class="num">109</td><td class="num">87</td><td></td></tr>
+        <tr><td class="num">7</td><td>Claude Sonnet 5</td><td class="num">3/5</td><td class="num">150</td><td class="num">90</td><td></td></tr>
+        <tr><td class="num">8</td><td>gemini-flash-lite</td><td class="num">4/5</td><td class="num">148</td><td class="num">118</td><td></td></tr>
+        <tr><td class="num">9</td><td>gemini-flash</td><td class="num" style="color:var(--breach)">5/5</td><td class="num" style="color:var(--breach)">178</td><td class="num" style="color:var(--breach)">178</td><td>💩 <span class="pill breach">chattiest + driftiest</span></td></tr>
       </tbody>
     </table>
   </div>
-  <p><strong>gemini-flash is the worst combination</strong> — does the most off-topic tasks, at the most length (biggest troll-tax exposure). OpenAI's gpt-5.6 is "terse but compliant" (drifts often, few words); Claude sits in the middle. <span style="color:var(--muted)">Caveat: n=5 requests, single sample each — directional, not a benchmark. "Words" counts visible output only; these are reasoning models that also bill hidden reasoning tokens.</span></p>
+  <p><strong>gpt-5.6-sol takes the medal</strong> — most disciplined (drifts, but tersely). <strong>gemini-flash brings up the rear</strong> 💩 — does the most off-topic tasks, at the most length (biggest troll-tax exposure). OpenAI's gpt-5.6 is "terse but compliant"; Claude sits in the middle. <span style="color:var(--muted)">Caveat: n=5 requests, single sample each — directional, not a benchmark. "Words" counts visible output only; these are reasoning models that also bill hidden reasoning tokens.</span></p>
 </section>
 </div>
 

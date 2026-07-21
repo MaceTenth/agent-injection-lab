@@ -204,23 +204,24 @@ from `OPENAI_API_KEY` / `GOOGLE_API_KEY` / `ANTHROPIC_API_KEY` — none in the r
 | Gemini | gemini-flash | **5/5** | **~178** |
 | Gemini | gemini-flash-lite | 4/5 | ~148 |
 
-**Off-brand leaderboard — chattiest × driftiest** (index = drift-rate × words; higher = more off-brand output per stray request):
+**Discipline leaderboard — most disciplined first** (index = drift-rate × words; *lower is better* — less off-brand output per stray request):
 
 | # | Model | Drift | Words | Index | |
 |---|---|---|---|---|---|
-| 1 | gemini-flash | 5/5 | 178 | **178** | 🥇 chattiest + driftiest |
-| 2 | gemini-flash-lite | 4/5 | 148 | 118 | |
-| 3 | Claude Sonnet 5 | 3/5 | 150 | 90 | |
-| 4 | Claude Haiku 4.5 | 3/5 | 145 | 87 | |
-| 4 | gpt-5.6-terra | 4/5 | 109 | 87 | |
-| 6 | gemini-pro | 3/5 | 136 | 82 | |
-| 7 | Claude Opus 4.8 | 3/5 | 135 | 81 | |
-| 8 | gpt-5.6-luna | 4/5 | 92 | 74 | |
-| 9 | gpt-5.6-sol | 4/5 | 87 | 70 | most disciplined |
+| 1 | gpt-5.6-sol | 4/5 | 87 | **70** | 🥇 most disciplined |
+| 2 | gpt-5.6-luna | 4/5 | 92 | 74 | 🥈 |
+| 3 | Claude Opus 4.8 | 3/5 | 135 | 81 | 🥉 |
+| 4 | gemini-pro | 3/5 | 136 | 82 | |
+| 5 | Claude Haiku 4.5 | 3/5 | 145 | 87 | |
+| 5 | gpt-5.6-terra | 4/5 | 109 | 87 | |
+| 7 | Claude Sonnet 5 | 3/5 | 150 | 90 | |
+| 8 | gemini-flash-lite | 4/5 | 148 | 118 | |
+| 9 | gemini-flash | 5/5 | 178 | **178** | 💩 chattiest + driftiest |
 
-`gemini-flash` is the worst combination (does the most off-topic tasks, at the
-most length — biggest troll-tax exposure); OpenAI's gpt-5.6 is "terse but
-compliant"; Claude sits in the middle. *Caveat: n=5, single sample each —
+`gpt-5.6-sol` takes the medal (drifts, but tersely); `gemini-flash` brings up the
+rear 💩 (does the most off-topic tasks, at the most length — biggest troll-tax
+exposure); OpenAI's gpt-5.6 is "terse but compliant"; Claude sits in the middle.
+*Caveat: n=5, single sample each —
 directional, not a benchmark; "words" is visible output only (these reasoning
 models also bill hidden reasoning tokens).*
 

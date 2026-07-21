@@ -54,18 +54,9 @@ it. Costs a few cents per run.
 | `--min-score N` | `75` | Exit non-zero below `N` — use as a CI gate. |
 | `--no-color` | off | Disable ANSI colors. |
 
-### CI gating
-
-`.github/workflows/promptcheck.yml` runs the audit on **pull requests that touch
-the prompt** (and on manual dispatch — not on every push) and **fails the build
-below a score threshold**. Add an `ANTHROPIC_API_KEY` repo secret (Settings →
-Secrets and variables → Actions), point `--prompt` at your real prompt file, and
-set `--min-score` to your bar. Without the secret the job skips cleanly instead
-of failing.
-
-```yaml
-- run: python3 promptcheck.py --prompt prompts/system.txt --agent --min-score 90 --no-color
-```
+The non-zero exit below `--min-score` makes it easy to gate in your own CI
+(`promptcheck.py --prompt prompts/system.txt --min-score 90 --json`), with an
+`ANTHROPIC_API_KEY` provided by the runner.
 
 ---
 

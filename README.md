@@ -18,7 +18,9 @@ a live battery of attacks (injection, prompt-leak, persona-hijack, scope-drift,
 and optional agentic tool-abuse), prints a colored terminal report with a
 **resilience score / 100**, and gives you targeted fixes. Stdlib only.
 
-![promptcheck example run](docs/promptcheck.svg)
+| A leaky prompt → `65/100 [LEAKY]` | A hardened prompt → `100/100 [HARDENED]` |
+|:---:|:---:|
+| ![weak prompt run](docs/weak_prompt.png) | ![hardened prompt run](docs/strong_prompt.png) |
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...

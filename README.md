@@ -11,6 +11,31 @@ baked in — it's a prompt-engineering job. See [Findings](#findings).
 
 ---
 
+## `promptcheck` — grade your own system prompt
+
+The tool that operationalizes all of it. Point it at a system prompt and it runs
+a live battery of attacks (injection, prompt-leak, persona-hijack, scope-drift),
+prints a colored terminal report with a **resilience score / 100**, and gives you
+targeted fixes. Stdlib only; exits non-zero below 75 so you can gate it in CI.
+
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...
+python3 promptcheck.py --prompt examples/weak.txt        # -> ~75/100 [SOLID]
+python3 promptcheck.py --prompt examples/hardened.txt    # -> 100/100 [HARDENED]
+python3 promptcheck.py -p my_prompt.txt -m claude-opus-4-8   # test your deploy model
+cat my_prompt.txt | python3 promptcheck.py               # or pipe via stdin
+```
+
+It scores four categories — **Injection resistance** (w40), **Prompt-leak**
+(w15), **Persona lock** (w15), **Scope adherence** (w30) — using deterministic
+canary/leak checks plus a self-calibrated LLM judge for scope. Injection and leak
+tend to pass even on weak prompts (that resistance is baked into the model);
+persona and scope are where a weak prompt loses points — exactly the
+prompt-engineering layer. Each failure prints the one-line prompt fix that closes
+it. Costs a few cents per run.
+
+---
+
 ## Safety / secrets
 
 - These scripts read the API key from the `ANTHROPIC_API_KEY` environment

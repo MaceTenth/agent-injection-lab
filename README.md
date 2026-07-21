@@ -177,6 +177,53 @@ prompt; not putting sensitive tools behind the cheapest model; and testing with
 *subtle* attacks scored by deterministic checks or a **calibrated** judge (two
 of our LLM judges failed their controls and had to be replaced).
 
+## Cross-provider: does it generalize?
+
+We re-ran the battery against OpenAI's **gpt-5.6** (luna/terra/sol) and Gemini's
+**pro / flash / flash-lite** (code in [`crossprovider/`](crossprovider/); keys read
+from `OPENAI_API_KEY` / `GOOGLE_API_KEY` / `ANTHROPIC_API_KEY` — none in the repo).
+
+- **Agentic tool-abuse generalizes — and is worse elsewhere.** The subtle
+  confused-deputy attack (exfil / rogue refund) breached OpenAI's *and* Gemini's
+  **flagships** at high rates under a permissive prompt (refund ~100%, exfil up to
+  2/2), where Claude's Opus/Sonnet held (0–25%). The *pattern* is universal
+  (refund > exfil; permissive worsens it); the *resistance level* is not.
+- **Drift is universal.** Every model drifts off-topic on a neutral prompt.
+
+**Results — same neutral prompt, off-topic battery, Claude-judged drift + words per visible reply:**
+
+| Provider | Model | Drift (off-topic done /5) | Chattiness (words/reply) |
+|---|---|---|---|
+| Claude | Opus 4.8 | 3/5 | ~135 |
+| Claude | Sonnet 5 | 3/5 | ~150 |
+| Claude | Haiku 4.5 | 3/5 | ~145 |
+| OpenAI | gpt-5.6-luna | 4/5 | ~92 |
+| OpenAI | gpt-5.6-terra | 4/5 | ~109 |
+| OpenAI | gpt-5.6-sol | 4/5 | ~87 |
+| Gemini | gemini-pro | 3/5 | ~136 |
+| Gemini | gemini-flash | **5/5** | **~178** |
+| Gemini | gemini-flash-lite | 4/5 | ~148 |
+
+**Off-brand leaderboard — chattiest × driftiest** (index = drift-rate × words; higher = more off-brand output per stray request):
+
+| # | Model | Drift | Words | Index | |
+|---|---|---|---|---|---|
+| 1 | gemini-flash | 5/5 | 178 | **178** | 🥇 chattiest + driftiest |
+| 2 | gemini-flash-lite | 4/5 | 148 | 118 | |
+| 3 | Claude Sonnet 5 | 3/5 | 150 | 90 | |
+| 4 | Claude Haiku 4.5 | 3/5 | 145 | 87 | |
+| 4 | gpt-5.6-terra | 4/5 | 109 | 87 | |
+| 6 | gemini-pro | 3/5 | 136 | 82 | |
+| 7 | Claude Opus 4.8 | 3/5 | 135 | 81 | |
+| 8 | gpt-5.6-luna | 4/5 | 92 | 74 | |
+| 9 | gpt-5.6-sol | 4/5 | 87 | 70 | most disciplined |
+
+`gemini-flash` is the worst combination (does the most off-topic tasks, at the
+most length — biggest troll-tax exposure); OpenAI's gpt-5.6 is "terse but
+compliant"; Claude sits in the middle. *Caveat: n=5, single sample each —
+directional, not a benchmark; "words" is visible output only (these reasoning
+models also bill hidden reasoning tokens).*
+
 ## A note on method (things that faked our results)
 
 - **Fail-open harness:** an early version counted 75/90 API errors as "safe."

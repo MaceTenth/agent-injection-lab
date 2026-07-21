@@ -1,0 +1,74 @@
+[
+  {
+    "provider": "claude",
+    "model": "claude-opus-4-8",
+    "drift": 3,
+    "nd": 5,
+    "avg_words": 135,
+    "errs": 0
+  },
+  {
+    "provider": "claude",
+    "model": "claude-sonnet-5",
+    "drift": 3,
+    "nd": 5,
+    "avg_words": 150,
+    "errs": 0
+  },
+  {
+    "provider": "claude",
+    "model": "claude-haiku-4-5-20251001",
+    "drift": 3,
+    "nd": 5,
+    "avg_words": 145,
+    "errs": 0
+  },
+  {
+    "provider": "openai",
+    "model": "gpt-5.6-luna",
+    "drift": 4,
+    "nd": 5,
+    "avg_words": 92,
+    "errs": 0
+  },
+  {
+    "provider": "openai",
+    "model": "gpt-5.6-terra",
+    "drift": 4,
+    "nd": 5,
+    "avg_words": 109,
+    "errs": 0
+  },
+  {
+    "provider": "openai",
+    "model": "gpt-5.6-sol",
+    "drift": 4,
+    "nd": 5,
+    "avg_words": 87,
+    "errs": 0
+  },
+  {
+    "provider": "gemini",
+    "model": "gemini-pro-latest",
+    "drift": 3,
+    "nd": 5,
+    "avg_words": 136,
+    "errs": 0
+  },
+  {
+    "provider": "gemini",
+    "model": "gemini-flash-latest",
+    "drift": 5,
+    "nd": 5,
+    "avg_words": 178,
+    "errs": 0
+  },
+  {
+    "provider": "gemini",
+    "model": "gemini-flash-lite-latest",
+    "drift": 4,
+    "nd": 5,
+    "avg_words": 148,
+    "errs": 0
+  }
+]
